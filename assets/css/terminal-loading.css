@@ -1,0 +1,131 @@
+/* Terminal Loading Screen */
+.terminal-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+#matrix-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    z-index: 0;
+}
+
+.terminal-window {
+    width: 90%;
+    max-width: 800px;
+    height: 400px;
+    background: rgba(10, 10, 20, 0.85);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(2, 170, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(2, 170, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.terminal-header {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(2, 170, 255, 0.1);
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.terminal-close { background-color: #ff5f56; }
+.terminal-minimize { background-color: #ffbd2e; }
+.terminal-maximize { background-color: #27c93f; }
+
+.terminal-title {
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.terminal-body {
+    padding: 20px;
+    height: calc(100% - 45px);
+    overflow-y: auto;
+    font-family: 'Fira Code', monospace;
+    color: #02aaff;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.terminal-line {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.typing-text {
+    color: #02aaff;
+    text-shadow: 0 0 5px rgba(2, 170, 255, 0.5);
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 18px;
+    background: #02aaff;
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    box-shadow: 0 0 5px rgba(2, 170, 255, 0.8);
+}
+
+.terminal-output {
+    margin-top: 10px;
+    color: #00ff9d;
+    text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+}
+
+@keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Matrix rain characters */
+.matrix-char {
+    color: #00ff41;
+    text-shadow: 0 0 5px #00ff41;
+    opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .terminal-window {
+        width: 95%;
+        height: 60vh;
+    }
+    
+    .terminal-body {
+        font-size: 12px;
+    }
+}
