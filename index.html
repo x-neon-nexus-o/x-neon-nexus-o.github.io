@@ -448,6 +448,11 @@
             </div>
         </section>
     </main>
+    <nav id="floating-nav" class="float-navbar" aria-label="Quick Navigation" role="navigation">
+        <div class="float-navbar-inner">
+            <div id="floating-nav-list" class="float-nav-list"></div>
+        </div>
+    </nav>
     
     <footer class="py-3" style="background: rgb(33, 37, 41);">
         <div class="container">
@@ -681,6 +686,162 @@
             window.addEventListener('scroll', animateAboutSection);
         });
     </script>
+    <script>
+        (function() {
+            const floatingNav = document.getElementById('floating-nav');
+            const list = document.getElementById('floating-nav-list');
+            const source = document.getElementById('navcol-5');
+            if (source && list) {
+                list.innerHTML = '';
+                const links = source.querySelectorAll('ul.navbar-nav li a');
+                links.forEach(function(a) {
+                    list.appendChild(a.cloneNode(true));
+                });
+                const hireBtn = source.querySelector('.btn');
+                if (hireBtn) {
+                    list.appendChild(hireBtn.cloneNode(true));
+                }
+            }
+            let lastY = window.pageYOffset || 0;
+            let ticking = false;
+            let navigationInProgress = false;
+            function lockNavVisible() {
+                navigationInProgress = true;
+                floatingNav.classList.add('visible');
+            }
+            function unlockNavVisible() {
+                navigationInProgress = false;
+            }
+            function onScroll() {
+                if (navigationInProgress) {
+                    ticking = false;
+                    return;
+                }
+                const y = window.pageYOffset || 0;
+                const dirDown = y > lastY;
+                const nearTop = y < 120;
+                if (dirDown && y > 200) {
+                    floatingNav.classList.add('visible');
+                } else if (!dirDown || nearTop) {
+                    floatingNav.classList.remove('visible');
+                }
+                lastY = y;
+                ticking = false;
+            }
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(onScroll);
+                    ticking = true;
+                }
+            }, { passive: true });
+            window.addEventListener('click', function(e) {
+                const a = e.target.closest('a[href^="#"]');
+                if (!a) return;
+                lockNavVisible();
+                setTimeout(unlockNavVisible, 800);
+            });
+            window.addEventListener('hashchange', function() {
+                lockNavVisible();
+                lastY = window.pageYOffset || 0;
+                setTimeout(unlockNavVisible, 500);
+            });
+            window.addEventListener('popstate', function() {
+                lockNavVisible();
+                lastY = window.pageYOffset || 0;
+                setTimeout(unlockNavVisible, 500);
+            });
+            try {
+                window.addEventListener('scrollend', function() {
+                    if (navigationInProgress) unlockNavVisible();
+                });
+            } catch (_) {}
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('test') === '1') {
+                    const ids = ['about','education','projects','skills','contact-us'];
+                    let i = 0;
+                    function step() {
+                        if (i >= ids.length) return;
+                        location.hash = ids[i++];
+                        setTimeout(step, 400);
+                    }
+                    step();
+                }
+            } catch (_) {}
+        })();
+    </script>
+    <script>
+        (function() {
+            const source = document.getElementById('navcol-5');
+            const list = document.getElementById('scroll-nav-list');
+            if (source && list) {
+                list.innerHTML = '';
+                const links = source.querySelectorAll('ul.navbar-nav li a');
+                links.forEach(function(a) {
+                    list.appendChild(a.cloneNode(true));
+                });
+                const hireBtn = source.querySelector('.btn');
+                if (hireBtn) {
+                    list.appendChild(hireBtn.cloneNode(true));
+                }
+            }
+            const scrollNav = document.getElementById('scroll-up-nav');
+            let lastY = window.pageYOffset || 0;
+            let ticking = false;
+            let wantVisible = false;
+            let appearTimer = null;
+            function showNavDelayed() {
+                if (appearTimer) return;
+                appearTimer = setTimeout(function() {
+                    appearTimer = null;
+                    if (wantVisible) scrollNav.classList.add('visible');
+                }, 250);
+            }
+            function hideNav() {
+                if (appearTimer) { clearTimeout(appearTimer); appearTimer = null; }
+                wantVisible = false;
+                scrollNav.classList.remove('visible');
+            }
+            function onScrollTopNav() {
+                const y = window.pageYOffset || 0;
+                const directionUp = y < lastY;
+                if (directionUp) {
+                    wantVisible = true;
+                    showNavDelayed();
+                } else {
+                    hideNav();
+                }
+                lastY = y;
+                ticking = false;
+            }
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(onScrollTopNav);
+                    ticking = true;
+                }
+            }, { passive: true });
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('scrolltest') === '1') {
+                    let step = 0;
+                    function run() {
+                        step++;
+                        if (step === 1) window.scrollTo({ top: 800, behavior: 'instant' });
+                        if (step === 2) window.scrollTo({ top: 600, behavior: 'instant' });
+                        if (step === 3) window.scrollTo({ top: 1000, behavior: 'instant' });
+                        if (step === 4) return;
+                        setTimeout(run, 400);
+                    }
+                    setTimeout(run, 300);
+                }
+            } catch (_) {}
+        })();
+    </script>
+    <nav id="scroll-up-nav" class="scroll-navbar" role="navigation" aria-label="Scroll Navigation">
+        <div class="scroll-navbar-inner">
+            <div id="scroll-nav-list" class="scroll-nav-list"></div>
+        </div>
+    </nav>
 </body>
 
 </html>
