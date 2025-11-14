@@ -1434,3 +1434,47 @@ header {
 @supports not (backdrop-filter: blur(10px)) {
   .scroll-navbar { background: rgba(20, 25, 35, 0.85); }
 }
+/* Scroll-triggered animations */
+:root {
+  --fade-distance-y: 20px;
+  --slide-distance-x: 50px;
+  --zoom-scale: 0.8;
+  --fade-duration: 500ms;
+  --slide-duration: 450ms;
+  --zoom-duration: 550ms;
+  --stagger-cards: 100ms;
+}
+
+.anim { opacity: 0; }
+.anim.in-view { opacity: 1; }
+
+.fade-up { transform: translateY(var(--fade-distance-y)); transition: opacity var(--fade-duration) ease-out, transform var(--fade-duration) ease-out; }
+.fade-up.in-view { transform: translateY(0); }
+
+@keyframes slideLeftElastic {
+  0%   { opacity: 0; transform: translateX(var(--slide-distance-x)); }
+  60%  { opacity: 1; transform: translateX(-10%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.slide-left { transform: translateX(var(--slide-distance-x)); }
+.slide-left.in-view { animation: slideLeftElastic var(--slide-duration) cubic-bezier(.15, .7, .35, 1) both; }
+
+.zoom { transform: scale(var(--zoom-scale)); opacity: 0.5; transition: opacity var(--zoom-duration) ease-in-out, transform var(--zoom-duration) ease-in-out; }
+.zoom.in-view { transform: scale(1); opacity: 1; }
+
+.anim { transition-delay: var(--anim-delay, 0ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim { transition: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fade-distance-y: 14px;
+    --slide-distance-x: 35px;
+    --fade-duration: 400ms;
+    --slide-duration: 350ms;
+    --zoom-duration: 450ms;
+    --stagger-cards: 100ms;
+  }
+}
