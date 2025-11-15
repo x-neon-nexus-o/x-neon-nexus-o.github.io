@@ -602,18 +602,7 @@
     <script src="assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        // Loading screen functionality
-        window.addEventListener('load', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            // Hide loading screen after 2 seconds (2000ms)
-            setTimeout(function() {
-                loadingScreen.style.opacity = '0';
-                // Remove from DOM after fade out
-                setTimeout(function() {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 2000);
-        });
+        // Terminal loading handled by assets/js/terminal-loading.js
     </script>
     
     <!-- Back to Top Button -->
@@ -693,6 +682,10 @@
             const text = 'Prathamesh Gawas';
             let index = 0;
     
+            const designationEl = document.querySelector('.designation-typewriter');
+            const designationText = 'Software Developer';
+            let dIndex = 0;
+
             function type() {
                 if (index < text.length) {
                     typewriterText.textContent += text[index];
@@ -700,9 +693,19 @@
                     setTimeout(type, 100);
                 } else {
                     typewriterText.parentElement.classList.add('typing-complete');
+                    setTimeout(typeDesignation, 400);
                 }
             }
-            
+
+            function typeDesignation() {
+                if (!designationEl) return;
+                if (dIndex < designationText.length) {
+                    designationEl.textContent += designationText[dIndex];
+                    dIndex++;
+                    setTimeout(typeDesignation, 90);
+                }
+            }
+
             type();
             
             // About section animation

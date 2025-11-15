@@ -860,6 +860,22 @@ html {
     background: #0194df;
 }
 
+/* Content transition around terminal intro */
+body.loading header,
+body.loading main,
+body.loading footer {
+    opacity: 0.6;
+    filter: blur(1px);
+    transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+body.ready header,
+body.ready main,
+body.ready footer {
+    opacity: 1;
+    filter: none;
+}
+
 /* Loading Screen Styles */
 .loading-screen {
     position: fixed;
