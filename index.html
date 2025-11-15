@@ -15,6 +15,7 @@
      <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/terminal-loading.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-5SgXzQk4X6b0lO3bIYQe2f3RrRk2M+eXQpOqZbqkQjQ7Jc2eVqv3VbYBfQbB3b6Zp9uQjv9uYgq6kq6PqY5xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -48,6 +49,7 @@
                     <div class="collapse navbar-collapse" id="navcol-5">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item"><a class="nav-link active" href="#about">ABOUT</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#experience" style="color: var(--bs-white);">EXPERIENCE</a></li>
                             <li class="nav-item"><a class="nav-link" href="#education" style="color: var(--bs-white);">EDUCATION</a></li>
                             <li class="nav-item"><a class="nav-link" href="#skills" style="color: var(--bs-navbar-brand-color);">SKILLS</a></li>
                             <li class="nav-item"><a class="nav-link" href="#projects" style="font-family: 'Work Sans', sans-serif;color: var(--bs-navbar-active-color);">PROJECTS</a></li>
@@ -96,6 +98,47 @@
                             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                         </svg>
                     </a>
+                </div>
+            </div>
+        </section>
+        <section id="experience" class="py-5 py-xl-5">
+            <div class="container">
+                <h2 class="section-title text-center mb-5" data-aos="fade-up"><span class="text-gradient">EXPERIENCE</span></h2>
+
+                <div class="timeline">
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="timeline-marker">
+                            <div class="timeline-icon"><i class="fas fa-briefcase" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h3>Python Intern — Maxgen Technologies</h3>
+                                <span class="timeline-date">06/2023 – 07/2023</span>
+                            </div>
+                            <h4>Vashi, Maharashtra</h4>
+                            <div class="d-flex align-items-center mb-3">
+                                <img class="company-logo" src="assets/img/image.png" alt="Maxgen Technologies logo">
+                                <span class="ms-2 text-muted" style="font-family: 'Work Sans', sans-serif;">Maxgen Technologies</span>
+                            </div>
+                            <div class="row g-3 align-items-start">
+                                <div class="col-12 col-md-8">
+                                    <ul class="responsibilities">
+                                        <li>Developed and deployed web applications using Django.</li>
+                                        <li>Utilized core Python basics for backend development.</li>
+                                        <li>Identified and resolved functionality and performance issues.</li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="skills-used project-tech">
+                                        <span>Python</span>
+                                        <span>Django</span>
+                                        <span>Git</span>
+                                        <span>Debugging</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -842,6 +885,48 @@
             <div id="scroll-nav-list" class="scroll-nav-list"></div>
         </div>
     </nav>
+    <script>
+        (function() {
+            var sectionIds = ['about','experience','education','skills','HireMe','projects','contact-us'];
+            var sections = sectionIds.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+            function allNavLinks() {
+                var links = [];
+                var containers = [document.getElementById('navcol-5'), document.getElementById('floating-nav-list'), document.getElementById('scroll-nav-list')];
+                for (var i = 0; i < containers.length; i++) {
+                    var c = containers[i]; if (!c) continue;
+                    var q = c.querySelectorAll('a[href^="#"]');
+                    for (var j = 0; j < q.length; j++) links.push(q[j]);
+                }
+                return links;
+            }
+            function setActive(id) {
+                var links = allNavLinks();
+                for (var i = 0; i < links.length; i++) {
+                    var href = links[i].getAttribute('href');
+                    if (href === '#' + id) { links[i].classList.add('active'); }
+                    else { links[i].classList.remove('active'); }
+                }
+            }
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function(entries){
+                    var visible = entries.filter(function(e){ return e.isIntersecting; }).sort(function(a,b){ return b.intersectionRatio - a.intersectionRatio; });
+                    if (visible.length) setActive(visible[0].target.id);
+                }, { root: null, threshold: 0.6 });
+                for (var k = 0; k < sections.length; k++) io.observe(sections[k]);
+            } else {
+                var lastId = '';
+                function onScroll(){
+                    var center = (window.innerHeight || document.documentElement.clientHeight) / 2;
+                    for (var i = 0; i < sections.length; i++) {
+                        var r = sections[i].getBoundingClientRect();
+                        if (r.top <= center && r.bottom >= center) { if (lastId !== sections[i].id) { lastId = sections[i].id; setActive(lastId); } break; }
+                    }
+                }
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
+        })();
+    </script>
 </body>
 
 </html>
