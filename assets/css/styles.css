@@ -422,6 +422,41 @@
     z-index: 1;
 }
 
+/* Experience Section */
+.company-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: inline-block;
+  object-fit: contain;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 6px;
+}
+
+.responsibilities {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.responsibilities li {
+  color: #a8b2d1;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.skills-used {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 992px) {
+  .company-logo { width: 38px; height: 38px; }
+}
+
 .timeline {
     position: relative;
     max-width: 1000px;
