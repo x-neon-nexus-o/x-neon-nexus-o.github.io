@@ -436,6 +436,368 @@ function showNotification(message, type = 'info') {
 // Add resume button on page load
 document.addEventListener('DOMContentLoaded', addResumeDownloadButton);
 
+// ===== ANALYTICS & TRACKING =====
+
+// Analytics Configuration
+const analyticsConfig = {
+  enableTracking: true,
+  trackClicks: true,
+  trackScrollDepth: true,
+  trackTimeOnPage: true,
+  trackSearchQueries: true
+};
+
+// Initialize all tracking on page load
+document.addEventListener('DOMContentLoaded', function() {
+  if (analyticsConfig.enableTracking) {
+    initializeEventTracking();
+    initializeScrollTracking();
+    initializeTimeTracking();
+  }
+});
+
+/**
+ * Initialize event tracking for clicks on important elements
+ */
+function initializeEventTracking() {
+  // Track project clicks
+  trackProjectClicks();
+  
+  // Track skill interactions
+  trackSkillInteractions();
+  
+  // Track social media clicks
+  trackSocialMediaClicks();
+  
+  // Track navigation clicks
+  trackNavigationClicks();
+  
+  // Track project search
+  trackSearchInteractions();
+  
+  // Track theme customizer interactions
+  trackThemeCustomizer();
+  
+  // Track resume downloads
+  trackResumeDownloads();
+}
+
+/**
+ * Track project card clicks and interactions
+ */
+function trackProjectClicks() {
+  const projectCards = document.querySelectorAll('.project-card');
+  
+  projectCards.forEach((card, index) => {
+    const projectTitle = card.querySelector('.project-title')?.textContent || `Project ${index + 1}`;
+    
+    // Track when project card is hovered
+    card.addEventListener('mouseenter', function() {
+      trackEvent('engagement', 'project_hover', projectTitle);
+    });
+    
+    // Track project links (GitHub, Live Demo)
+    const projectLinks = card.querySelectorAll('.project-link');
+    projectLinks.forEach((link, linkIndex) => {
+      const isGithub = link.getAttribute('href').includes('github.com');
+      const isDemoLink = link.querySelector('.fa-external-link-alt');
+      
+      link.addEventListener('click', function(e) {
+        const linkType = isGithub ? 'github' : isDemoLink ? 'live_demo' : 'unknown';
+        trackEvent('engagement', 'project_link_click', {
+          project: projectTitle,
+          link_type: linkType,
+          url: link.getAttribute('href')
+        });
+      });
+    });
+  });
+}
+
+/**
+ * Track skill interactions and hovers
+ */
+function trackSkillInteractions() {
+  const skillItems = document.querySelectorAll('.skill-item');
+  
+  skillItems.forEach((skill, index) => {
+    const skillName = skill.querySelector('span')?.textContent || `Skill ${index + 1}`;
+    const skillDataAttr = skill.getAttribute('data-skill');
+    
+    // Track skill hover
+    skill.addEventListener('mouseenter', function() {
+      const proficiency = skillsProficiency[skillDataAttr] || 'Unknown';
+      trackEvent('engagement', 'skill_hover', {
+        skill: skillName,
+        proficiency: proficiency
+      });
+    });
+  });
+}
+
+/**
+ * Track social media link clicks
+ */
+function trackSocialMediaClicks() {
+  const socialLinks = document.querySelectorAll('.social-icon');
+  
+  socialLinks.forEach(link => {
+    let platform = 'unknown';
+    if (link.classList.contains('github')) platform = 'github';
+    else if (link.classList.contains('linkedin')) platform = 'linkedin';
+    else if (link.classList.contains('instagram')) platform = 'instagram';
+    
+    link.addEventListener('click', function(e) {
+      trackEvent('engagement', 'social_media_click', {
+        platform: platform,
+        url: link.getAttribute('href')
+      });
+    });
+  });
+}
+
+/**
+ * Track navigation menu clicks
+ */
+function trackNavigationClicks() {
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  
+  navLinks.forEach(link => {
+    const sectionName = link.textContent.trim();
+    const href = link.getAttribute('href');
+    
+    link.addEventListener('click', function() {
+      trackEvent('navigation', 'menu_click', {
+        section: sectionName,
+        destination: href
+      });
+    });
+  });
+  
+  // Track "HIRE ME" button
+  const hireMeButtons = document.querySelectorAll('.futuristic-nav-btn, .futuristic-btn');
+  hireMeButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      trackEvent('conversion', 'hire_me_click', {
+        button_text: btn.textContent.trim()
+      });
+    });
+  });
+}
+
+/**
+ * Track search and filter interactions
+ */
+function trackSearchInteractions() {
+  // Track project search
+  const projectSearch = document.getElementById('project-search');
+  if (projectSearch) {
+    projectSearch.addEventListener('input', function(e) {
+      if (analyticsConfig.trackSearchQueries && e.target.value.length > 0) {
+        trackEvent('engagement', 'project_search', {
+          query: e.target.value,
+          results_shown: document.querySelectorAll('#projects .project-card:not([style*="display: none"])').length
+        });
+      }
+    });
+  }
+  
+  // Track skills search
+  const skillsSearch = document.getElementById('skills-search');
+  if (skillsSearch) {
+    skillsSearch.addEventListener('input', function(e) {
+      if (analyticsConfig.trackSearchQueries && e.target.value.length > 0) {
+        trackEvent('engagement', 'skills_search', {
+          query: e.target.value,
+          results_shown: document.querySelectorAll('#skills .skill-item:not([style*="display: none"])').length
+        });
+      }
+    });
+  }
+  
+  // Track filter button clicks
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      trackEvent('engagement', 'filter_click', {
+        filter_type: 'proficiency',
+        filter_value: btn.getAttribute('data-filter')
+      });
+    });
+  });
+}
+
+/**
+ * Track theme customizer interactions
+ */
+function trackThemeCustomizer() {
+  // Track theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      trackEvent('engagement', 'theme_toggle', {
+        mode: document.body.classList.contains('light-mode') ? 'light' : 'dark'
+      });
+    });
+  }
+  
+  // Track color picker
+  const colorPicker = document.getElementById('accentColorPicker');
+  if (colorPicker) {
+    colorPicker.addEventListener('change', function(e) {
+      trackEvent('engagement', 'color_picker_change', {
+        color: e.target.value
+      });
+    });
+  }
+  
+  // Track reset button
+  const resetTheme = document.getElementById('reset-theme');
+  if (resetTheme) {
+    resetTheme.addEventListener('click', function() {
+      trackEvent('engagement', 'theme_reset', {
+        timestamp: new Date().toISOString()
+      });
+    });
+  }
+}
+
+/**
+ * Track resume download attempts
+ */
+function trackResumeDownloads() {
+  const resumeButtons = document.querySelectorAll('.resume-download-btn');
+  
+  resumeButtons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      trackEvent('conversion', 'resume_download', {
+        file: 'Prathamesh_Gawas_Resume.pdf',
+        timestamp: new Date().toISOString()
+      });
+    });
+  });
+}
+
+/**
+ * Track scroll depth to understand engagement
+ */
+function initializeScrollTracking() {
+  if (!analyticsConfig.trackScrollDepth) return;
+  
+  const maxScroll = {};
+  let scrollTrackingEnabled = true;
+  
+  window.addEventListener('scroll', function() {
+    if (!scrollTrackingEnabled) return;
+    
+    const scrollPercentage = Math.round(
+      (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+    );
+    
+    // Track at 25%, 50%, 75%, and 100% scroll
+    const milestones = [25, 50, 75, 100];
+    
+    milestones.forEach(milestone => {
+      if (scrollPercentage >= milestone && !maxScroll[milestone]) {
+        maxScroll[milestone] = true;
+        trackEvent('engagement', 'scroll_depth', {
+          percentage: milestone
+        });
+      }
+    });
+  }, { passive: true });
+}
+
+/**
+ * Track time spent on page
+ */
+function initializeTimeTracking() {
+  if (!analyticsConfig.trackTimeOnPage) return;
+  
+  const startTime = Date.now();
+  const intervals = [30, 60, 120, 300]; // 30s, 1m, 2m, 5m
+  const tracked = {};
+  
+  const checkTimeInterval = setInterval(function() {
+    const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+    
+    intervals.forEach(interval => {
+      if (timeSpent >= interval && !tracked[interval]) {
+        tracked[interval] = true;
+        trackEvent('engagement', 'time_on_page', {
+          duration_seconds: interval,
+          scroll_depth: Math.round(
+            (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+          )
+        });
+      }
+    });
+  }, 5000); // Check every 5 seconds
+  
+  // Track page unload
+  window.addEventListener('beforeunload', function() {
+    const totalTime = Math.floor((Date.now() - startTime) / 1000);
+    trackEvent('engagement', 'page_exit', {
+      duration_seconds: totalTime,
+      final_scroll_depth: Math.round(
+        (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      )
+    });
+  });
+}
+
+/**
+ * Main tracking function - sends events to Google Analytics
+ * @param {string} category - Event category (engagement, conversion, navigation, etc.)
+ * @param {string} action - Event action (click, hover, search, etc.)
+ * @param {string|object} label - Event label or object with additional data
+ */
+function trackEvent(category, action, label) {
+  if (!analyticsConfig.enableTracking || typeof gtag === 'undefined') return;
+  
+  try {
+    // Prepare event data
+    const eventData = {
+      event_category: category,
+      event_label: typeof label === 'string' ? label : JSON.stringify(label)
+    };
+    
+    // If label is an object, spread its properties
+    if (typeof label === 'object') {
+      Object.assign(eventData, label);
+    }
+    
+    // Send to Google Analytics
+    gtag('event', action, eventData);
+    
+    // Also log to console in development
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      console.log(`[Analytics] Category: ${category}, Action: ${action}`, label);
+    }
+  } catch (error) {
+    console.error('Error tracking event:', error);
+  }
+}
+
+/**
+ * Get analytics summary (useful for debugging)
+ */
+function getAnalyticsSummary() {
+  return {
+    enabled: analyticsConfig.enableTracking,
+    trackingFeatures: analyticsConfig,
+    gaInstalled: typeof gtag !== 'undefined',
+    message: 'View detailed analytics in Google Analytics Dashboard'
+  };
+}
+
+// Make tracking functions globally accessible
+window.portfolioTracking = {
+  trackEvent,
+  getAnalyticsSummary,
+  analyticsConfig
+};
+
 // Export functions for external use
 window.portfolioFeatures = {
   changeAccentColor,
