@@ -1881,3 +1881,354 @@ header {
     --stagger-cards: 100ms;
   }
 }
+
+/* ===== Enhanced Timeline Animations ===== */
+.timeline-item {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.timeline-item:hover {
+  transform: translateX(10px);
+}
+
+.timeline-marker {
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-marker {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(2, 170, 255, 0.6);
+}
+
+.timeline-icon {
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-item:hover .timeline-icon {
+  transform: rotate(360deg) scale(1.1);
+  animation: none;
+}
+
+.timeline-content {
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 3px solid transparent;
+}
+
+.timeline-item:hover .timeline-content {
+  background: rgba(2, 170, 255, 0.08);
+  border-left-color: #02aaff;
+  box-shadow: 0 8px 16px rgba(2, 170, 255, 0.1);
+}
+
+.timeline-header h3 {
+  transition: color 0.3s ease;
+}
+
+.timeline-item:hover .timeline-header h3 {
+  color: #02aaff;
+}
+
+/* ===== Skill Proficiency Levels ===== */
+.skill-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.skill-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.skill-proficiency {
+  display: none;
+  font-size: 0.75rem;
+  color: #02aaff;
+  margin-top: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.skill-item:hover .skill-proficiency {
+  display: block;
+  animation: fadeInUp 0.3s ease;
+}
+
+.proficiency-bar {
+  width: 60px;
+  height: 3px;
+  background: rgba(2, 170, 255, 0.2);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+  display: none;
+}
+
+.skill-item:hover .proficiency-bar {
+  display: block;
+}
+
+.proficiency-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #02aaff, #00ffff);
+  border-radius: 2px;
+  animation: growWidth 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  box-shadow: 0 0 10px rgba(2, 170, 255, 0.5);
+}
+
+@keyframes growWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Theme Customizer ===== */
+.theme-customizer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  background: rgba(10, 11, 15, 0.95);
+  border: 1px solid rgba(2, 170, 255, 0.3);
+  border-radius: 50px;
+  padding: 15px 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  color: #02aaff;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.2) rotate(20deg);
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(2, 170, 255, 0.5);
+}
+
+.color-picker-input {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(2, 170, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.color-picker-input:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(2, 170, 255, 0.5);
+  border-color: #02aaff;
+}
+
+/* ===== Search Functionality ===== */
+.search-container {
+  margin-bottom: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  padding: 12px 20px;
+  border: 2px solid rgba(2, 170, 255, 0.3);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  min-width: 250px;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #02aaff;
+  background: rgba(2, 170, 255, 0.1);
+  box-shadow: 0 0 15px rgba(2, 170, 255, 0.2);
+}
+
+.filter-btn {
+  padding: 12px 20px;
+  border: 2px solid rgba(2, 170, 255, 0.3);
+  border-radius: 25px;
+  background: transparent;
+  color: #02aaff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: rgba(2, 170, 255, 0.2);
+  border-color: #02aaff;
+  box-shadow: 0 0 15px rgba(2, 170, 255, 0.2);
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+}
+
+/* ===== Resume Download Button ===== */
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #02aaff, #00ffff);
+  border: none;
+  border-radius: 25px;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.resume-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(2, 170, 255, 0.4);
+}
+
+.resume-download-btn:active {
+  transform: translateY(0);
+}
+
+.resume-download-btn i {
+  font-size: 16px;
+}
+
+/* ===== GitHub Stats Widget ===== */
+.github-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.github-stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(2, 170, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.github-stat-card:hover {
+  background: rgba(2, 170, 255, 0.1);
+  border-color: #02aaff;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(2, 170, 255, 0.1);
+}
+
+.github-stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #02aaff;
+  margin-bottom: 10px;
+}
+
+.github-stat-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.github-contributions-graph {
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .theme-customizer {
+    bottom: 15px;
+    right: 15px;
+    padding: 12px 15px;
+    gap: 12px;
+  }
+  
+  .search-input {
+    min-width: 200px;
+    font-size: 12px;
+  }
+  
+  .github-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeline-item:hover {
+    transform: translateX(5px);
+  }
+}
