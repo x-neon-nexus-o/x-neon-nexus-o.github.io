@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Prathamesh Gawas - Full Stack Developer Portfolio">
+    <meta name="theme-color" content="#02aaff">
     <title>Prathamesh Gawas</title>
     <link rel="shortcut icon" href="assets/img/web_13011400.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -43,7 +46,7 @@
 
     <header>
         <div class="header-bg" style="height: 600px; position: relative; overflow: hidden;">
-            <video autoplay muted loop class="header-video">
+            <video autoplay muted loop loading="lazy" class="header-video" playsinline>
                 <source src="assets/jake-and-finn-starry-night-sky-adventure-time-moewalls-com.mp4" type="video/mp4">
                 <img src="assets/img/sung-jinwoo-dragon-3840x2160-15351.jpg" alt="Fallback background"
                     style="width: 100%; height: 100%; object-fit: cover;">
@@ -406,7 +409,7 @@
         <section id="HireMe" class="py-4 py-xl-5">
             <div class="container">
                 <div class="banner">
-                    <video autoplay muted loop class="banner-video">
+                    <video autoplay muted loop loading="lazy" class="banner-video" playsinline>
                         <source src="assets/Koi-Fish-Sachiro.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -475,7 +478,7 @@
                                             class="project-link" title="View Code">
                                             <i class="fab fa-github"></i>
                                         </a>
-                                        <a href="#" class="project-link" title="Live Demo">
+                                        <a href="https://campuscare-demo.netlify.app" target="_blank" class="project-link" title="Live Demo">
                                             <i class="fas fa-external-link-alt"></i>
                                         </a>
                                     </div>
@@ -507,7 +510,7 @@
                                             class="project-link" title="View Code">
                                             <i class="fab fa-github"></i>
                                         </a>
-                                        <a href="#" class="project-link" title="Live Demo">
+                                        <a href="https://proton-technosystem.vercel.app" target="_blank" class="project-link" title="Live Demo">
                                             <i class="fas fa-external-link-alt"></i>
                                         </a>
                                     </div>
@@ -534,10 +537,10 @@
                                     class="project-img">
                                 <div class="project-overlay">
                                     <div class="project-links">
-                                        <a href="#" target="_blank" class="project-link" title="View Code">
+                                        <a href="https://github.com/x-neon-nexus-o/TennisWiki" target="_blank" class="project-link" title="View Code">
                                             <i class="fab fa-github"></i>
                                         </a>
-                                        <a href="#" class="project-link" title="Live Demo">
+                                        <a href="https://tenniswiki-demo.netlify.app" target="_blank" class="project-link" title="Live Demo">
                                             <i class="fas fa-external-link-alt"></i>
                                         </a>
                                     </div>
@@ -1026,6 +1029,77 @@
                 onScroll();
             }
         })();
+    </script>
+    
+    <!-- Browser Compatibility & Polyfills -->
+    <script>
+        // Check for browser support and add fallbacks
+        (function() {
+            // Polyfill for fetch API (for older browsers)
+            if (!window.fetch) {
+                var script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/whatwg-fetch@3/dist/fetch.umd.js';
+                document.head.appendChild(script);
+            }
+            
+            // Check for IntersectionObserver support
+            if (!window.IntersectionObserver) {
+                var script = document.createElement('script');
+                script.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+                document.head.appendChild(script);
+            }
+            
+            // Log browser info for debugging
+            var ua = navigator.userAgent;
+            console.log('User Agent:', ua);
+            
+            // Add browser compatibility class to HTML element
+            var isIE = ua.indexOf('Trident') > -1;
+            var isEdge = ua.indexOf('Edg') > -1;
+            var isChrome = ua.indexOf('Chrome') > -1;
+            var isFirefox = ua.indexOf('Firefox') > -1;
+            var isSafari = ua.indexOf('Safari') > -1 && ua.indexOf('Chrome') === -1;
+            
+            var html = document.documentElement;
+            if (isIE) html.classList.add('is-ie');
+            if (isEdge) html.classList.add('is-edge');
+            if (isChrome) html.classList.add('is-chrome');
+            if (isFirefox) html.classList.add('is-firefox');
+            if (isSafari) html.classList.add('is-safari');
+        })();
+    </script>
+    
+    <!-- Progressive Enhancement for Videos -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var videos = document.querySelectorAll('video');
+            videos.forEach(function(video) {
+                // Ensure video controls are accessible
+                if (!video.hasAttribute('controls') && video.hasAttribute('autoplay')) {
+                    video.addEventListener('play', function(e) {
+                        // Pause on first play if user hasn't interacted
+                        if (!video.dataset.userInteracted) {
+                            video.pause();
+                        }
+                    });
+                    
+                    video.addEventListener('click', function() {
+                        video.dataset.userInteracted = 'true';
+                        if (video.paused) video.play();
+                        else video.pause();
+                    });
+                }
+                
+                // Add error handling
+                video.addEventListener('error', function() {
+                    console.error('Video error:', video.src);
+                    // Hide video container on error
+                    if (video.parentElement) {
+                        video.parentElement.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
