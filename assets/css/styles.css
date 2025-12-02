@@ -1,5 +1,7 @@
 /* Browser Compatibility & Fallbacks */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -9,15 +11,15 @@
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .col-12 {
     width: 100%;
   }
-  
+
   .col-md-6 {
     width: 50%;
   }
-  
+
   .col-lg-4 {
     width: 33.333%;
   }
@@ -64,9 +66,29 @@ video {
 }
 
 /* GitHub Activity */
-.github-activity-card{background:rgba(255,255,255,.03);border-radius:12px;padding:1.5rem;border:1px solid rgba(2,170,255,.1);box-shadow:0 10px 30px rgba(2,170,255,.15);backdrop-filter:blur(10px)}
-.github-graph-wrap{overflow:hidden;border-radius:10px;background:rgba(2,170,255,.04);box-shadow:0 5px 20px rgba(2,170,255,.12)}
-.github-graph{display:block;width:100%;max-width:100%;height:auto;border-radius:10px}
+.github-activity-card {
+  background: rgba(255, 255, 255, .03);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(2, 170, 255, .1);
+  box-shadow: 0 10px 30px rgba(2, 170, 255, .15);
+  backdrop-filter: blur(10px)
+}
+
+.github-graph-wrap {
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(2, 170, 255, .04);
+  box-shadow: 0 5px 20px rgba(2, 170, 255, .12)
+}
+
+.github-graph {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px
+}
 
 .project-card {
   background: rgba(255, 255, 255, 0.03);
@@ -252,7 +274,9 @@ video {
     font-size: 0.9rem;
   }
 
-  .github-activity-card{padding:1rem}
+  .github-activity-card {
+    padding: 1rem
+  }
 }
 
 /* Technical Skills Section */
@@ -751,6 +775,7 @@ video {
     transform: translateY(0);
   }
 }
+
 /* No orphaned closing brace; keep the file intact */
 
 .skill-card {
@@ -2001,6 +2026,7 @@ header {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -2011,6 +2037,7 @@ header {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -2040,6 +2067,7 @@ header {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -2225,16 +2253,16 @@ header {
     padding: 12px 15px;
     gap: 12px;
   }
-  
+
   .search-input {
     min-width: 200px;
     font-size: 12px;
   }
-  
+
   .github-stats {
     grid-template-columns: 1fr;
   }
-  
+
   .timeline-item:hover {
     transform: translateX(5px);
   }
