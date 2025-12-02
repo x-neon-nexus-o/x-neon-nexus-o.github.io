@@ -100,7 +100,7 @@ video {
 .project-img-container {
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: 140px;
 }
 
 .project-img {
@@ -236,7 +236,7 @@ video {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .project-img-container {
-    height: 180px;
+    height: 120px;
   }
 
   .project-title {

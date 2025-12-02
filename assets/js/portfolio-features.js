@@ -42,8 +42,8 @@ const proficiencyLevels = {
 
 // ===== Initialize Portfolio Features =====
 document.addEventListener('DOMContentLoaded', function () {
+  replaceProjectImagesWithGitHubPreview();
   initSkillProficiency();
-  initThemeCustomizer();
   initSearchFunctionality();
   initGitHubStats();
 });
@@ -87,35 +87,7 @@ function initSkillProficiency() {
 }
 
 // ===== THEME CUSTOMIZER IMPLEMENTATION =====
-function initThemeCustomizer() {
-  // Create theme customizer HTML
-  const customizer = document.createElement('div');
-  customizer.className = 'theme-customizer';
-  customizer.innerHTML = `
-    <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Theme">
-      <i class="fas fa-palette"></i>
-    </button>
-    <input type="color" class="color-picker-input" id="accentColorPicker" 
-           value="#02aaff" title="Pick Accent Color">
-    <button class="theme-toggle-btn" id="reset-theme" title="Reset Theme">
-      <i class="fas fa-redo"></i>
-    </button>
-  `;
-
-  document.body.appendChild(customizer);
-
-  // Load saved theme from localStorage
-  loadSavedTheme();
-
-  // Theme toggle functionality
-  const themeToggle = document.getElementById('theme-toggle');
-  const colorPicker = document.getElementById('accentColorPicker');
-  const resetTheme = document.getElementById('reset-theme');
-
-  themeToggle.addEventListener('click', toggleDarkMode);
-  colorPicker.addEventListener('input', changeAccentColor);
-  resetTheme.addEventListener('click', resetThemeToDefault);
-}
+function initThemeCustomizer() { }
 
 function toggleDarkMode() {
   document.body.classList.toggle('light-mode');
@@ -143,15 +115,7 @@ function resetThemeToDefault() {
 }
 
 function loadSavedTheme() {
-  const savedAccentColor = localStorage.getItem('accentColor');
   const darkMode = localStorage.getItem('darkMode');
-
-  if (savedAccentColor) {
-    document.documentElement.style.setProperty('--accent-color', savedAccentColor);
-    const picker = document.getElementById('accentColorPicker');
-    if (picker) picker.value = savedAccentColor;
-  }
-
   if (darkMode === 'false') {
     document.body.classList.add('light-mode');
   }
@@ -181,6 +145,38 @@ function addSearchToProjects() {
 
   const searchInput = document.getElementById('project-search');
   searchInput.addEventListener('input', filterProjects);
+}
+
+function replaceProjectImagesWithGitHubPreview() {
+  var cards = document.querySelectorAll('.project-card');
+  for (var i = 0; i < cards.length; i++) {
+    var gh = cards[i].querySelector('.project-links a[href*="github.com"]');
+    var img = cards[i].querySelector('.project-img');
+    if (!gh || !img) continue;
+    try {
+      var href = gh.getAttribute('href');
+      var m = href.match(/github\.com\/([^\/]+)\/([^\/?#]+)/i);
+      if (!m) continue;
+      var owner = m[1];
+      var repo = m[2];
+      var token = 'portfolio';
+      var url = 'https://opengraph.githubassets.com/' + encodeURIComponent(token) + '/' + owner + '/' + repo;
+      img.dataset.originalSrc = img.src || '';
+      img.src = url;
+      img.loading = 'lazy';
+      img.alt = owner + '/' + repo + ' GitHub preview';
+      img.referrerPolicy = 'no-referrer';
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.addEventListener('error', function(e){
+        var t = e.currentTarget; if (t.dataset.originalSrc) { t.src = t.dataset.originalSrc; }
+      }, { once: true });
+      img.addEventListener('load', function(e){
+        var t = e.currentTarget; t.style.opacity = '1';
+      }, { once: true });
+    } catch (_) {}
+  }
 }
 
 function filterProjects(e) {
@@ -444,7 +440,7 @@ function initializeEventTracking() {
   trackSearchInteractions();
 
   // Track theme customizer interactions
-  trackThemeCustomizer();
+  
 
   // Track resume downloads
   // trackResumeDownloads();
