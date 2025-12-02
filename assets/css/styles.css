@@ -63,6 +63,11 @@ video {
   background: linear-gradient(90deg, transparent, rgba(2, 170, 255, 0.5), transparent);
 }
 
+/* GitHub Activity */
+.github-activity-card{background:rgba(255,255,255,.03);border-radius:12px;padding:1.5rem;border:1px solid rgba(2,170,255,.1);box-shadow:0 10px 30px rgba(2,170,255,.15);backdrop-filter:blur(10px)}
+.github-graph-wrap{overflow:hidden;border-radius:10px;background:rgba(2,170,255,.04);box-shadow:0 5px 20px rgba(2,170,255,.12)}
+.github-graph{display:block;width:100%;max-width:100%;height:auto;border-radius:10px}
+
 .project-card {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
@@ -246,6 +251,8 @@ video {
   .project-desc {
     font-size: 0.9rem;
   }
+
+  .github-activity-card{padding:1rem}
 }
 
 /* Technical Skills Section */
@@ -744,7 +751,7 @@ video {
     transform: translateY(0);
   }
 }
-}
+/* No orphaned closing brace; keep the file intact */
 
 .skill-card {
   background: rgba(255, 255, 255, 0.05);

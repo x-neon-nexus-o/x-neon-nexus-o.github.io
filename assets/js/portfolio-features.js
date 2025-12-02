@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initSkillProficiency();
   initSearchFunctionality();
   initGitHubStats();
+  initGithubGraph();
 });
 
 // ===== SKILL PROFICIENCY IMPLEMENTATION =====
@@ -177,6 +178,13 @@ function replaceProjectImagesWithGitHubPreview() {
       }, { once: true });
     } catch (_) {}
   }
+}
+
+function initGithubGraph(){
+  var img=document.querySelector('#github-activity .github-graph');
+  if(!img)return;
+  img.addEventListener('error',function(){img.alt='GitHub Contribution Graph unavailable';img.style.opacity='0.7'});
+  img.addEventListener('load',function(){img.style.opacity='1'},{once:true});
 }
 
 function filterProjects(e) {
