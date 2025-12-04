@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="assets/css/Navbar-Right-Links-Dark-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/terminal-loading.css">
+    <link rel="stylesheet" href="assets/css/form-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-5SgXzQk4X6b0lO3bIYQe2f3RrRk2M+eXQpOqZbqkQjQ7Jc2eVqv3VbYBfQbB3b6Zp9uQjv9uYgq6kq6PqY5xQ=="
@@ -709,18 +710,35 @@
                 </div>
                 <div class="col-md-6 col-lg-5 col-xl-4">
                     <div>
-                        <form class="p-3 p-xl-4" method="post"
-                            action="https://formsubmit.co/gawasprathamesh45@gmail.com">
-                            <div class="mb-3"><input class="form-control" type="text" id="name-1" name="name"
-                                    placeholder="Name"></div>
-                            <div class="mb-3"><input class="form-control" type="email" id="email-1" name="email"
-                                    placeholder="Email"></div>
-                            <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="6"
-                                    placeholder="Message"></textarea></div>
+                        <form id="contactForm" class="p-3 p-xl-4" method="post"
+                            action="https://formsubmit.co/gawasprathamesh45@gmail.com"
+                            data-csrf-token="">
+                            <div class="mb-3">
+                                <input class="form-control" type="text" id="name-1" name="name"
+                                    placeholder="Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="email" id="email-1" name="email"
+                                    placeholder="Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="message-1" name="message" rows="6"
+                                    placeholder="Message" required></textarea>
+                            </div>
+                            <!-- Honeypot field to catch bots -->
+                            <div class="hp-field" aria-hidden="true">
+                                <input type="text" name="_honeypot" tabindex="-1" autocomplete="off">
+                            </div>
                             <input type="hidden" name="_captcha" value="false">
                             <input type="hidden" name="_next" value="https://x-neon-nexus-o.github.io/Portfolio/thanks">
                             <input type="hidden" name="_template" value="table">
-                            <div><button class="btn btn-primary d-block w-100" type="submit">Send </button></div>
+                            <div id="formMessages"></div>
+                            <div>
+                                <button class="btn btn-primary d-block w-100" type="submit" id="submitBtn">
+                                    <span id="submitText">Send</span>
+                                    <span id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -728,6 +746,7 @@
         </div>
     </section>
     <script src="assets/js/terminal-loading.js"></script>
+    <script src="assets/js/form-security.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>

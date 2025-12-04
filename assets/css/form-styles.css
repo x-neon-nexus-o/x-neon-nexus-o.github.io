@@ -1,0 +1,111 @@
+/* Form Messages */
+#formMessages {
+    margin-bottom: 1rem;
+    font-family: 'Work Sans', sans-serif;
+}
+
+#formMessages .alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+#formMessages .alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+#formMessages .alert-error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+#formMessages .alert-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+}
+
+/* Form Loading State */
+#submitBtn {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+#submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+#submitSpinner {
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Form Validation */
+input:invalid, textarea:invalid {
+    border-color: #dc3545 !important;
+}
+
+input:valid, textarea:valid {
+    border-color: #198754 !important;
+}
+
+/* Accessibility Improvements */
+.form-control:focus {
+    border-color: #02aaff;
+    box-shadow: 0 0 0 0.25rem rgba(2, 170, 255, 0.25);
+}
+
+/* Required Field Indicator */
+.required:after {
+    content: " *";
+    color: #dc3545;
+}
+
+/* Honeypot Field (for bots) */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Success Message */
+.form-success {
+    display: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid #198754;
+    border-radius: 0.25rem;
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* Error Message */
+.form-error {
+    display: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid #dc3545;
+    border-radius: 0.25rem;
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #formMessages .alert {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    #submitBtn {
+        padding: 0.5rem;
+    }
+}
