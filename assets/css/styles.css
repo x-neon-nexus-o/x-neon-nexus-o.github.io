@@ -90,6 +90,16 @@ video {
   border-radius: 10px
 }
 
+.github-iframe {
+  display: block;
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  border-radius: 10px;
+  margin: 0 auto;
+  border: none;
+}
+
 .project-card {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
