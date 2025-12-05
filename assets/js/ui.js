@@ -371,27 +371,101 @@ function initBrowserCompatibility() {
  */
 function initVideoEnhancements() {
     var videos = document.querySelectorAll('video');
-    videos.forEach(function (video) {
-        // Ensure video controls are accessible
-        if (!video.hasAttribute('controls') && video.hasAttribute('autoplay')) {
-            video.addEventListener('play', function (e) {
-                // Pause on first play if user hasn't interacted
-                if (!video.dataset.userInteracted) {
-                    video.pause();
+
+    // Helper: smoothly change volume
+    function fadeVolume(video, target, durationMs, onDone) {
+        try {
+            var start = video.volume;
+            var startTime = performance.now();
+            var clampedTarget = Math.max(0, Math.min(1, target));
+            function step(ts) {
+                var t = Math.min(1, (ts - startTime) / durationMs);
+                var v = start + (clampedTarget - start) * t;
+                video.volume = v;
+                if (t < 1) requestAnimationFrame(step);
+                else if (typeof onDone === 'function') onDone();
+            }
+            requestAnimationFrame(step);
+        } catch (_) { if (typeof onDone === 'function') onDone(); }
+    }
+
+    // Play/pause videos based on visibility; manage audio for HireMe section
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                var v = entry.target;
+                var inHireMe = v.closest('#HireMe') !== null;
+                if (entry.isIntersecting) {
+                    // Section visible
+                    if (inHireMe) {
+                        // If user gesture happened, unmute and play with audio
+                        if (window.__audioGestureGranted__) {
+                            v.muted = false;
+                            // Fade in audio for smoother experience
+                            if (v.volume < 0.95) fadeVolume(v, 1, 600);
+                        }
+                    }
+                    try { if (v.paused) v.play(); } catch (_) { }
+                } else {
+                    // Section hidden: pause and mute to avoid audio leakage
+                    if (inHireMe && !v.muted && v.volume > 0) {
+                        // Fade out, then pause and mute
+                        fadeVolume(v, 0, 500, function () {
+                            try { if (!v.paused) v.pause(); } catch (_) { }
+                            v.muted = true;
+                            v.volume = 0;
+                        });
+                    } else {
+                        try { if (!v.paused) v.pause(); } catch (_) { }
+                        if (inHireMe) v.muted = true;
+                    }
                 }
             });
+        }, { threshold: 0.6 });
+        videos.forEach(function (v) { io.observe(v); });
+    }
 
-            video.addEventListener('click', function () {
-                video.dataset.userInteracted = 'true';
-                if (video.paused) video.play();
-                else video.pause();
-            });
+    // One-time user gesture to allow audio: click or keypress
+    var audioUnlocked = false;
+    function unlockAudio() {
+        if (audioUnlocked) return;
+        audioUnlocked = true;
+        window.__audioGestureGranted__ = true;
+        var bannerVideo = document.querySelector('#HireMe .banner-video');
+        if (bannerVideo) {
+            bannerVideo.muted = false; // enable audio after gesture
+            bannerVideo.dataset.userInteracted = 'true';
+            try { bannerVideo.play(); } catch (_) { }
         }
+        var headerVideo = document.querySelector('header .header-video');
+        if (headerVideo) {
+            // Keep header muted by default; do not change
+        }
+        // Remove listeners after unlocking to avoid overhead
+        window.removeEventListener('click', unlockAudio);
+        window.removeEventListener('keydown', unlockAudio);
+    }
+    window.addEventListener('click', unlockAudio, { once: false });
+    window.addEventListener('keydown', unlockAudio, { once: false });
 
-        // Add error handling
+    // If user clicks the "HIRE ME" button/link, immediately unmute that section's video
+    var hireLinks = document.querySelectorAll('a[href="#HireMe"]');
+    hireLinks.forEach(function (a) {
+        a.addEventListener('click', function () {
+            window.__audioGestureGranted__ = true;
+            var bannerVideo = document.querySelector('#HireMe .banner-video');
+            if (bannerVideo) {
+                bannerVideo.dataset.userInteracted = 'true';
+                bannerVideo.muted = false;
+                try { bannerVideo.play(); } catch (_) { }
+            }
+        });
+    });
+
+    // Error handling: hide broken videos
+    videos.forEach(function (video) {
         video.addEventListener('error', function () {
-            console.error('Video error:', video.src);
-            // Hide video container on error
+            console.error('Video error:', video.currentSrc || video.src);
             if (video.parentElement) {
                 video.parentElement.style.display = 'none';
             }
