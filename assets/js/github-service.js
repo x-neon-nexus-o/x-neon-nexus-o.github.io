@@ -143,10 +143,8 @@ const GithubService = (function () {
             setCachedStats(data);
             updateStatsDisplay(data, Date.now());
 
-            // Trigger repo showcase if available
-            if (typeof RepoShowcase !== 'undefined' && RepoShowcase.updateRepos) {
-                RepoShowcase.updateRepos(data.topRepos);
-            }
+            // Update repo showcase with fetched data
+            updateRepoShowcase(data.topRepos);
 
         } catch (error) {
             console.error('Error fetching GitHub stats:', error);
